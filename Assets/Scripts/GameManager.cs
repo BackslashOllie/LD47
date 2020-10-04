@@ -29,6 +29,7 @@ public class GameManager : Singleton<GameManager>
     public AudioSource alienHit;
     public AudioSource alienDeath;
     public AudioSource upgradeSound;
+    public AudioSource pulseSound;
 
     public bool gameplayStopped
     {
@@ -110,11 +111,13 @@ public class GameManager : Singleton<GameManager>
 
     private void Pulse()
     {
+        pulseSound.Play();
         pulse.localScale = new Vector3(4.5f, 4.5f, 0.7f);
         foreach (Alien alien in FindObjectsOfType<Alien>())
         {
             if (Vector3.Distance(Vector3.zero, alien.transform.position) < 2.25f)
             {
+                alienDeath.Play();
                 Destroy(alien.gameObject);
                 Instantiate(alienExplosionPrefab, alien.transform.position, Quaternion.identity);
                 playerScore++;
